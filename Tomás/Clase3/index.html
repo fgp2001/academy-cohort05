@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tareas</title>
+    <link rel="stylesheet" href="./styles/styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <main>
+        <h1>Lista de Tareas</h1>
+        <form id="form-tarea">
+            <label for="input-tarea">Nueva Tarea:</label>
+            <input type="text" id="tarea" name="tarea" required>
+            <button type="submit">Agregar</button>
+        </form>
+
+        <div class="barra">
+            <p id="contador" aria-live="polite">0 pendientes</p>
+
+            <nav id="filtros" aria-label="Filtrar tareas">
+                <button type="button" data-filtro="todas" aria-pressed="true">Todas</button>
+                <button type="button" data-filtro="pendientes" aria-pressed="false">Pendientes</button>
+                <button type="button" data-filtro="hechas" aria-pressed="false">Hechas</button>
+            </nav>
+        </div>
+
+        <ul id="lista-tareas">
+        </ul>
+
+    </main>
+</body>
+</html>
