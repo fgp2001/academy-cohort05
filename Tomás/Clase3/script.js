@@ -4,7 +4,12 @@ const lista = document.querySelector("#lista-tareas");
 const contador = document.querySelector("#contador");
 const filtros = document.querySelector("#filtros");
 
-let tareas = [];
+let tareas = [
+  { id: 1, texto: "Cocinar", hecha: true },
+  { id: 2, texto: "Estudiar", hecha: true },
+  { id: 3, texto: "Cenar", hecha: false },
+  { id: 4, texto: "Dormir", hecha: false },
+];
 let filtro = "todas";
 
 function render() {
@@ -93,3 +98,5 @@ filtros.addEventListener("click", (event) => {
 
   render();
 });
+
+render();
