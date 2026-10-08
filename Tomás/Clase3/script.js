@@ -15,11 +15,38 @@ form.addEventListener("submit", (e) => {
 
   const span = document.createElement("span");
   span.textContent = texto;
-  li.append(span);
+
+  const btnToggle = document.createElement("button");
+  btnToggle.type = "button";
+  btnToggle.dataset.action = "toggle";
+  btnToggle.textContent = "Hecha";
+
+  const btnDelete = document.createElement("button");
+  btnDelete.type = "button";
+  btnDelete.dataset.action = "delete";
+  btnDelete.textContent = "Borrar";
+
+  li.append(span, btnToggle, btnDelete);
 
   lista.append(li);
 
   input.value = "";
   input.focus();
 
+});
+
+lista.addEventListener('click', (event) => {
+  const boton = event.target.closest('button[data-action]');
+  if (!boton) return;
+
+  const li = boton.closest('li');
+  const accion = boton.dataset.action;
+
+  if (accion === 'toggle') {
+    li.classList.toggle('hecha');
+  }
+
+  if (accion === 'delete') {
+    li.remove();
+  }
 });
