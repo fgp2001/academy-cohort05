@@ -1,13 +1,16 @@
 const form = document.querySelector("#form-tarea");
 const input = document.querySelector("#tarea");
 const lista = document.querySelector("#lista-tareas");
+const contador = document.querySelector("#contador");
+const filtros = document.querySelector("#filtros");
 
 let tareas = [];
+let filtro = "todas";
 
 function render() {
   lista.innerHTML = "";
 
-  tareas.forEach((tarea) => {
+  tareasVisibles().forEach((tarea) => {
     const li = document.createElement("li");
     li.dataset.id = tarea.id;
     if (tarea.hecha) li.classList.add("hecha");
@@ -28,6 +31,19 @@ function render() {
     li.append(span, btnToggle, btnDelete);
     lista.append(li);
   });
+
+  actualizarContador();
+}
+
+function tareasVisibles() {
+  if (filtro === "pendientes") return tareas.filter((t) => !t.hecha);
+  if (filtro === "hechas") return tareas.filter((t) => t.hecha);
+  return tareas;
+}
+
+function actualizarContador() {
+  const pendientes = tareas.filter((t) => !t.hecha).length;
+  contador.textContent = `${pendientes} ${pendientes === 1 ? "pendiente" : "pendientes"}`;
 }
 
 form.addEventListener("submit", (event) => {
@@ -61,6 +77,19 @@ lista.addEventListener("click", (event) => {
   if (accion === "delete") {
     tareas = tareas.filter((t) => t.id !== id);
   }
+
+  render();
+});
+
+filtros.addEventListener("click", (event) => {
+  const boton = event.target.closest("button[data-filtro]");
+  if (!boton) return;
+
+  filtro = boton.dataset.filtro;
+
+  filtros.querySelectorAll("button").forEach((b) => {
+    b.setAttribute("aria-pressed", b === boton ? "true" : "false");
+  });
 
   render();
 });

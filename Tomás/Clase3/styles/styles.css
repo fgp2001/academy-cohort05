@@ -144,3 +144,39 @@ li button[data-action="delete"]:hover {
   color: var(--ok);
   border-color: var(--ok);
 }
+
+.barra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+#contador {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+#filtros {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+#filtros button {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  background: transparent;
+  color: var(--muted);
+}
+
+#filtros button[aria-pressed="true"] {
+  background: var(--accent);
+  color: #fff;
+}

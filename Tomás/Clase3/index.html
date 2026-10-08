@@ -16,6 +16,16 @@
             <button type="submit">Agregar</button>
         </form>
 
+        <div class="barra">
+            <p id="contador" aria-live="polite">0 pendientes</p>
+
+            <nav id="filtros" aria-label="Filtrar tareas">
+                <button type="button" data-filtro="todas" aria-pressed="true">Todas</button>
+                <button type="button" data-filtro="pendientes" aria-pressed="false">Pendientes</button>
+                <button type="button" data-filtro="hechas" aria-pressed="false">Hechas</button>
+            </nav>
+        </div>
+
         <ul id="lista-tareas">
         </ul>
 
