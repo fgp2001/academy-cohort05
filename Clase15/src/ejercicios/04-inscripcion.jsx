@@ -10,6 +10,18 @@ export default function CourseCard() {
   const buttonLabel = canRegister ? "Inscribirme" : "No disponible";
   const cardClass = canRegister ? "card available" : "card";
 
+  // hasSeats = true
+  // canRegister = true
+  // buttonLabel = Inscribirme
+  // cardClass = card available
+
+  // card available
+  // React Academy
+  // Cupos: 3
+  // Boton habilitado -> Inscribirme
+
+
+
   // UI
   return (
     <article className={cardClass}>

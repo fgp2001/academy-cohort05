@@ -9,6 +9,13 @@ export default function DownloadCard() {
   const canView = isPrivate ? hasAccess : true;
   const canDownload = hasFile && canView;
 
+  // canView = false
+  // canDownload = false
+
+  // Material de la clase
+  // Acceso restringido
+  // Descargar -> Deshabilitado
+
   // UI
   return (
     <article className="card">

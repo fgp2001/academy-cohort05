@@ -11,11 +11,24 @@ export default function BookingSummary() {
   if (isLoading) return <h2>Calculando total</h2>;
   if (ticketCount === 0) return null;
 
+
+
   // Reglas del caso normal
   const subtotal = ticketCount * unitPrice;
   const discount = hasDiscount ? 20 : 0;
   const total = subtotal - discount;
   const cardClass = hasDiscount ? "card discounted" : "card";
+
+  // subtotal = 100
+  // discount = 20
+  // total = 80
+  // cardClass = card discounted
+
+  // className = card discounted
+  // Resumen de reserva
+  // Entradas: 2 
+  // Antes: $100 (tachado)
+  // Total: $80
 
   // UI
   return (

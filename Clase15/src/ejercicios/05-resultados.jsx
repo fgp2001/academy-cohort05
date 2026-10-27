@@ -8,6 +8,7 @@ export default function ResultsPanel() {
   if (isLoading) return <section className="card"><h2>Cargando</h2></section>;
   if (hasError) return <section className="card"><h2>Error al cargar</h2></section>;
 
+  // Error al cargar
   // UI del caso normal
   return (
     <section className="card">

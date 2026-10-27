@@ -9,6 +9,17 @@ export default function TicketCard() {
   const showWarning = isUrgent && !isClosed;
   const cardClass = isClosed ? "card done" : "card";
 
+  // ownerLabel = Sin responsable 
+  //showWarning = TRUE
+  // cardClass = card
+
+  // className = card
+  // Revisar la inscripcion
+  // Pendiente
+  // Sin responsable
+  // Necesita atencion
+
+
   // UI
   return (
     <article className={cardClass}>

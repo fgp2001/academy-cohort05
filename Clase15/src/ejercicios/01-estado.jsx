@@ -6,10 +6,14 @@ export default function TaskStatus() {
   // Regla
   const status = done ? "Completada" : "Pendiente";
 
+
+  // Practicar JSX
+  // Pendiente
+
   // UI
   return (
     <article className="card">
-      <h2>{title}</h2>
+      <h2>{title}</h2> 
       <p>{status}</p>
     </article>
   );

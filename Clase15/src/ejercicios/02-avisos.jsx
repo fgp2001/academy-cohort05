@@ -7,6 +7,11 @@ export default function NotificationCard() {
   const hasNotifications = notificationCount > 0;
   const summary = hasNotifications ? "Tenés avisos" : "Sin avisos";
 
+ // hasNotifications = false
+ // summary =  Sin avisos
+
+ // Novedades -> Sin Avisos - > Revisá la sección de anuncios
+
   // UI
   return (
     <article className="card">
