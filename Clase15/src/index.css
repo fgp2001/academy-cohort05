@@ -1,0 +1,2 @@
+*{box-sizing:border-box}body{margin:0;background:#f4f3ef;color:#22252a;font:18px/1.6 system-ui,sans-serif}main{max-width:760px;margin:50px auto;padding:24px}.card{padding:26px;background:#fff;border:2px solid #d5d0c6;border-radius:10px}.available{border-color:#447255}.done{border-color:#626770}h2{line-height:1.25}button{padding:10px 16px;font:inherit;background:#22252a;color:white;border:0;border-radius:5px}button:disabled{opacity:.45;cursor:not-allowed}strong{color:#9a5028}
+.discounted{border-color:#447255}
