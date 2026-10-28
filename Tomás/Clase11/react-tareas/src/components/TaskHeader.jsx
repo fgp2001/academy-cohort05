@@ -1,3 +1,5 @@
+import "./TaskHeader.css";
+
 //let renders = 0;
 
 export default function TaskHeader({ title, subtitle }) {
@@ -5,7 +7,7 @@ export default function TaskHeader({ title, subtitle }) {
   renders++;
   return (
     <>
-      <h1>{title} (render #{renders})</h1>
+      <h1 className="task-header__title">{title} (render #{renders})</h1>
       <h2>{subtitle} (render #{renders + 1})</h2>
     </>
   );
