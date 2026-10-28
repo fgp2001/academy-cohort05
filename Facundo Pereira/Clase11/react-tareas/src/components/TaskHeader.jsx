@@ -1,9 +1,9 @@
-
+import "./TaskHeader.css"
 
 export default function TaskHeader({ title, subtitle }) {
     return (
         <div>
-            <h1>{title}</h1>
+            <h1 className="task-header__title">{title}</h1>
             <h3>{subtitle}</h3>
         </div>
     );
