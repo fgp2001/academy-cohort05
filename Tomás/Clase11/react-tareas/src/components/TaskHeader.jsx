@@ -8,7 +8,7 @@ export default function TaskHeader({ title, subtitle }) {
   return (
     <>
       <h1 className="task-header__title">{title} (render #{renders})</h1>
-      <h2>{subtitle} (render #{renders + 1})</h2>
+      <h2 className="task-header__subtitle">{subtitle} (render #{renders + 1})</h2>
     </>
   );
 }

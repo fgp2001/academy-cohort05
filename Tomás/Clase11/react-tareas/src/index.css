@@ -27,8 +27,8 @@
   --space-2: 8px;
   --space-3: 16px;
   --radius: 8px;
-  --color-border: #ddd8cc;
-  --color-accent: #b04a1a;
+  --color-border: #3a3d48;
+  --color-accent: #e07a4a;
 
   @media (max-width: 1024px) {
     font-size: 16px;

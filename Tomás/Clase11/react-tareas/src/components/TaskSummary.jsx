@@ -1,3 +1,5 @@
+import "./TaskSummary.css";
+
 export default function TaskSummary({ tasks }) {
   const total = tasks.length;
   const hechas = tasks.filter((t) => t.completed).length;
@@ -16,13 +18,13 @@ export default function TaskSummary({ tasks }) {
   const titulos = tasks.map((t) => t.title).join(", ");
 
   return (
-    <>
+    <div className="task-summary">
       <p>{hechas} hechas de {total} tareas</p>
       <p>Con reduce: {hechasConReduce} hechas</p>
       <p>¿Hay pendientes? {hayPendientes ? "Sí" : "No"}</p>
       <p>¿Todas hechas? {todasHechas ? "Sí" : "No"}</p>
       <p>Próxima: {proxima ? proxima.title : "Ninguna"}</p>
       <p>Títulos: {titulos}</p>
-    </>
+    </div>
   );
 }
