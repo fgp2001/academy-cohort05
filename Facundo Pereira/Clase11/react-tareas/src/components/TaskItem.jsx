@@ -1,9 +1,10 @@
 import "./TaskItem.css"
 
-export default function TaskItem({task, label = "Tarea"}) {
+export default function TaskItem({ task, label = "Tarea" }) {
     return (
-        <div>
+        <div className={`task-item ${task.completed ? "task-item--completed" : ""}`}>
             <p className="task-item__title">{label}: {task.title}</p>
+            <span>{task.completed ? "Hecha" : "Pendiente"}</span>
         </div>
     );
-}
+}   
