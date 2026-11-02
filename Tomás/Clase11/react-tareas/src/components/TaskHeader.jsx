@@ -6,10 +6,15 @@ export default function TaskHeader({ title, subtitle }) {
   let renders = 0;
   renders++;
   return (
-    <>
-      <h1 className="task-header__title">{title} (render #{renders})</h1>
-      <h2 className="task-header__subtitle">{subtitle} (render #{renders + 1})</h2>
-    </>
+    <header className="task-header">
+      <div>
+        <h1 className="task-header__title">{title} (#{renders})</h1>
+        <h2 className="task-header__subtitle">{subtitle} (#{renders + 1})</h2>
+      </div>
+      <button type="button" className="task-header__button">
+        Nueva tarea
+      </button>
+    </header>
   );
 }
 

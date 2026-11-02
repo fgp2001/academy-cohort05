@@ -4,19 +4,11 @@
   padding: 20px;
 }
 
-.panels {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
 .panel {
-  flex: 1;
   border: 1px solid #444;
   border-radius: 6px;
   padding: 12px;
   text-align: left;
-  min-width: 300px;
 }
 
 .panel h2 {
