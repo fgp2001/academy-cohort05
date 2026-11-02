@@ -7,9 +7,12 @@ export default function TaskItem({ task, label = "Tarea" }) {
                 {label}: {task.title}
             </p>
 
-            <span>{task.completed ? "Hecha" : "Pendiente"}</span>
+            <span className="task-item__status">{task.completed ? "Hecha" : "Pendiente"}</span>
 
-            <button type="button">Detalle</button>
+            <details className="task-item__details">
+                <summary>Detalle</summary>
+                <p>{task.description || task.title}</p>
+            </details>
         </div>
     );
 }
