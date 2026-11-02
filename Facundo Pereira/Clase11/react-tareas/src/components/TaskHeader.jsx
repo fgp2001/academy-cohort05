@@ -2,9 +2,13 @@ import "./TaskHeader.css"
 
 export default function TaskHeader({ title, subtitle }) {
     return (
-        <div>
-            <h1 className="task-header__title">{title}</h1>
-            <h3>{subtitle}</h3>
+        <div className="task-header">
+            <div>
+                <h1 className="task-header__title">{title}</h1>
+                <h3>{subtitle}</h3>
+            </div>
+
+            <button>+ Nueva Tarea</button>
         </div>
     );
 

@@ -1,5 +1,34 @@
 .task-header__title {
-    font-size: 28px;
-    color: crimson;
-    margin-bottom: 16px;
+    margin: 0;
+    font-size: clamp(28px, 4vw, 36px);
+    font-weight: 700;
+    letter-spacing: -1.2px;
+    color: var(--color-title);
+    line-height: 1.2;
+}
+
+.task-header__title::after {
+    content: "";
+    display: block;
+    width: 48px;
+    height: 4px;
+    margin-top: 8px;
+    background-color: var(--color-accent);
+    border-radius: 4px;
+}
+
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-4);
+}
+
+
+@media (max-width: 390px) {
+    .task-header {
+        align-items: flex-start;
+    }
 }

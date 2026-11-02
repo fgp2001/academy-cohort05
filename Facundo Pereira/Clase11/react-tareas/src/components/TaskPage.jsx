@@ -1,4 +1,5 @@
 import TaskHeader from "./TaskHeader"
+import "./TaskPage.css"
 import Panel from "./Panel"
 import TaskList from "./TaskList";
 import TaskSummary from "./TaskSummary"
@@ -23,7 +24,7 @@ export default function TaskPage({ tasks, titulo, conAyuda }) {
                 <Panel title="Todas las tareas">
                     <TaskList tasks={tasks} />
                 </Panel>
-                <Panel title="Tareas pendientes">
+                {/* <Panel title="Tareas pendientes">
                     <TaskList tasks={pendientes} />
                 </Panel>
                 <Panel title="Tareas completadas">
@@ -40,7 +41,7 @@ export default function TaskPage({ tasks, titulo, conAyuda }) {
                         <p>Revisa las tareas pendientes y comenza por la que consideres mas importante</p>
                     </Panel>
                 )}
-
+*/}
                 <Panel title="Resumen">
                     <TaskSummary tasks={tasks} />
                 </Panel>

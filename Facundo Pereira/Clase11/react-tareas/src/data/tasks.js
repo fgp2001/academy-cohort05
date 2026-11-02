@@ -1,6 +1,6 @@
 
 export const tasks = [
-    { id: 1, title: "Estudiar React", completed: false },
+    { id: 1, title: "Esta es una tarea con un título extremadamente largo para comprobar cómo se comporta nuestro diseño cuando el contenido supera el espacio disponible", completed: false },
     { id: 2, title: "Preparar el PR", completed: true },
     { id: 3, title: "Salir a correr", completed: false },
     { id: 4, title: "Leer sobre props", completed: true },
