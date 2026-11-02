@@ -27,7 +27,7 @@ export default function TaskPage({ tasks, titulo, subtitulo, conAyuda }) {
           <Panel title="Listado de Tareas">
             <TaskList tasks={tasks} />
           </Panel>
-          <Panel title="Pendientes">
+          {/* <Panel title="Pendientes">
             <TaskList tasks={pendientes} />
           </Panel>
           <Panel title="Hechas">
@@ -38,7 +38,7 @@ export default function TaskPage({ tasks, titulo, subtitulo, conAyuda }) {
           </Panel>
           <Panel title="Pendientes primero">
             <TaskList tasks={pendientesPrimero} />
-          </Panel>
+          </Panel> */}
         </div>
       </div>
 
