@@ -1,15 +1,16 @@
-import "./TaskItem.css";
+import styles from "./TaskItem.module.css";
 
-export default function TaskItem({ task, label = "Tarea" }) {
+export default function TaskItem({ task, label = "Tarea", variant = "default"
+}) {
     return (
-        <div className={`task-item ${task.completed ? "task-item--completed" : ""}`}>
-            <p className="task-item__title">
+        <div className={`${styles["task-item"]} ${task.completed ? styles["task-item--completed"] : ""} ${variant === "compact" ? styles.compact : ""}`}>
+            <p className={styles["task-item__title"]}>
                 {label}: {task.title}
             </p>
 
-            <span className="task-item__status">{task.completed ? "Hecha" : "Pendiente"}</span>
+            <span className={styles["task-item__status"]}>{task.completed ? "Hecha" : "Pendiente"}</span>
 
-            <details className="task-item__details">
+            <details className={styles["task-item__details"]}>
                 <summary>Detalle</summary>
                 <p>{task.description || task.title}</p>
             </details>
