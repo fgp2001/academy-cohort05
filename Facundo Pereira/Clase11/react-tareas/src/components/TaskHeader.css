@@ -1,9 +1,9 @@
 .task-header__title {
     margin: 0;
+    color: var(--color-primary);
     font-size: clamp(28px, 4vw, 36px);
     font-weight: 700;
-    letter-spacing: -1.2px;
-    color: var(--color-title);
+    letter-spacing: -1px;
     line-height: 1.2;
 }
 
@@ -12,9 +12,20 @@
     display: block;
     width: 48px;
     height: 4px;
-    margin-top: 8px;
+    margin-top: 10px;
     background-color: var(--color-accent);
     border-radius: 4px;
+}
+
+.task-header button {
+    padding: 11px 18px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--color-primary);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: default;
 }
 
 .task-header {
@@ -23,7 +34,7 @@
     align-items: center;
     gap: var(--space-3);
     flex-wrap: wrap;
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-5);
 }
 
 

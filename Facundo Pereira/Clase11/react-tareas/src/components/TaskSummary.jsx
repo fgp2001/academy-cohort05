@@ -1,39 +1,61 @@
 export default function TaskSummary({ tasks }) {
-    //reduce -> contar las tareas completas
-    const totalCompletas = tasks.reduce((contador, task) => task.completed ? contador + 1 : contador, 0);
+    const totalCompletas = tasks.reduce(
+        (contador, task) => task.completed ? contador + 1 : contador,
+        0
+    );
 
     const totalPendientes = tasks.length - totalCompletas;
 
-    // some -> Comprobar si existe al menos una tarea pendiente
     const hayPendientes = tasks.some((task) => !task.completed);
 
-    //every -> Comprobar si todas las tareas estan completas
     const todasCompletas = tasks.every((task) => task.completed);
 
-    //find -> Encontrar la primera tarea pendiente
     const primeraPendiente = tasks.find((task) => !task.completed);
 
-    //map -> Obtener un array con los titulos
     const titulos = tasks.map((task) => task.title);
 
-
     return (
-        <div>
-            <p>Total de tareas: {tasks.length}</p>
-            <p>Completas: {totalCompletas}</p>
-            <p>Pendientes: {totalPendientes}</p>
+        <div className="task-summary">
             <p>
-                ¿Hay tareas pendientes? {hayPendientes ? "Sí" : "No"}
+                <span>Total de tareas</span>
+                <strong>{tasks.length}</strong>
             </p>
+
             <p>
-                ¿Están todas completas? {todasCompletas ? "Sí" : "No"}
+                <span>Completas</span>
+                <strong>{totalCompletas}</strong>
             </p>
+
             <p>
-                Primera pendiente: {primeraPendiente
-                    ? primeraPendiente.title
-                    : "No hay tareas pendientes"}
+                <span>Pendientes</span>
+                <strong>{totalPendientes}</strong>
             </p>
-            <p>Títulos: {titulos.join(", ")}</p>
+
+            <div className="task-summary__divider" />
+
+            <p>
+                <span>¿Hay tareas pendientes?</span>
+                <strong>{hayPendientes ? "Sí" : "No"}</strong>
+            </p>
+
+            <p>
+                <span>¿Están todas completas?</span>
+                <strong>{todasCompletas ? "Sí" : "No"}</strong>
+            </p>
+
+            <div className="task-summary__featured">
+                <span>Primera tarea pendiente</span>
+                <strong>
+                    {primeraPendiente
+                        ? primeraPendiente.title
+                        : "No hay tareas pendientes"}
+                </strong>
+            </div>
+
+            <div className="task-summary__titles">
+                <span>Títulos de las tareas</span>
+                <p>{titulos.join(", ")}</p>
+            </div>
         </div>
     );
 }

@@ -1,20 +1,101 @@
+.task-page {
+    width: min(1100px, 100%);
+    margin: 0 auto;
+    padding: 40px 24px;
+}
+
 .task-page-layout {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1.6fr) minmax(260px, 0.8fr);
     gap: var(--space-4);
     align-items: start;
 }
 
 .panel {
     min-width: 0;
-    padding: var(--space-3);
+    padding: var(--space-4);
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
     background-color: var(--color-surface);
-    box-shadow: 0 3px 12px rgba(41, 45, 43, 0.04);
+    box-shadow: 0 4px 16px rgba(41, 45, 43, 0.04);
 }
 
-@media (max-width: 600px) {
+.panel h2 {
+    margin: 0 0 var(--space-3);
+    color: var(--color-primary);
+    font-size: 19px;
+}
+
+.task-summary {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.task-summary>p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 13px;
+}
+
+.task-summary>p span,
+.task-summary__featured span,
+.task-summary__titles span {
+    color: var(--color-muted);
+}
+
+.task-summary>p strong {
+    color: var(--color-primary);
+    font-size: 14px;
+}
+
+.task-summary__divider {
+    height: 1px;
+    margin: var(--space-2) 0;
+    background-color: var(--color-border);
+}
+
+.task-summary__featured,
+.task-summary__titles {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    border-radius: 10px;
+    background-color: var(--color-primary-light);
+}
+
+.task-summary__featured span,
+.task-summary__titles span {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.task-summary__featured strong {
+    color: var(--color-primary);
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.task-summary__titles p {
+    margin: 0;
+    color: var(--color-text);
+    font-size: 12px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 700px) {
+    .task-page {
+        padding: 24px 16px;
+    }
+
     .task-page-layout {
         grid-template-columns: 1fr;
     }
