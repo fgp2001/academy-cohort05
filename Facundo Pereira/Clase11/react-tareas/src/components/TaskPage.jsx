@@ -17,35 +17,18 @@ export default function TaskPage({ tasks, titulo, conAyuda }) {
         (a, b) => Number(a.completed) - Number(b.completed));
 
     return (
-        <div>
+        <main className="task-page">
             <TaskHeader title={titulo} subtitle="" />
 
             <div className="task-page-layout">
                 <Panel title="Todas las tareas">
                     <TaskList tasks={tasks} />
                 </Panel>
-                {/* <Panel title="Tareas pendientes">
-                    <TaskList tasks={pendientes} />
-                </Panel>
-                <Panel title="Tareas completadas">
-                    <TaskList tasks={completadas} />
-                </Panel>
-                <Panel title="Orden alfabético">
-                    <TaskList tasks={porTitulo} />
-                </Panel>
-                <Panel title="Pendientes primero">
-                    <TaskList tasks={pendientesPrimero} />
-                </Panel>
-                {conAyuda && (
-                    <Panel title="Indicaciones de uso">
-                        <p>Revisa las tareas pendientes y comenza por la que consideres mas importante</p>
-                    </Panel>
-                )}
-*/}
+
                 <Panel title="Resumen">
                     <TaskSummary tasks={tasks} />
                 </Panel>
             </div>
-        </div>
+        </main>
     );
 }
