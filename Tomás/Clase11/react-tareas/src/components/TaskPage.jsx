@@ -3,6 +3,7 @@ import Footer from "./Footer";
 import TaskList from "./TaskList";
 import Panel from "./Panel";
 import TaskSummary from "./TaskSummary";
+import TaskItem from "./TaskItem";
 import "./TaskPage.css";
 
 export default function TaskPage({ tasks, titulo, subtitulo, conAyuda }) {
@@ -14,14 +15,26 @@ export default function TaskPage({ tasks, titulo, subtitulo, conAyuda }) {
   const porTitulo = tasks.toSorted((a, b) => a.title.localeCompare(b.title));
   const pendientesPrimero = tasks.toSorted((a, b) => a.completed - b.completed);
 
+  const destacada = tasks.find((t) => !t.completed);
+  
   return (
     <div className="pagina">
       <TaskHeader title={titulo} subtitle={subtitulo} />
 
       <div className="task-page__grid">
-        <Panel title="Estado actual">
-          <TaskSummary tasks={tasks} />
-        </Panel>
+        <div className="task-page__lists">
+          <Panel title="Tarea destacada">
+            {destacada ? (
+              <TaskItem task={destacada} variant="compact" />
+            ) : (
+              <p>No hay tareas pendientes.</p>
+            )}
+          </Panel>
+
+          <Panel title="Estado actual">
+            <TaskSummary tasks={tasks} />
+          </Panel>
+        </div>
 
         <div className="task-page__lists">
           <Panel title="Listado de Tareas">
