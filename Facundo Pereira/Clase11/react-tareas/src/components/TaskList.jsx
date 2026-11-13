@@ -7,8 +7,9 @@ export default function TaskList({ tasks }) {
     return (
         <div className="task-list">
             {featuredTask && (
-                <section>
-                    <h2>Tarea destacada</h2>
+                <section className="task-list__featured">
+                    <h3>Tarea destacada</h3>
+
                     <TaskItem
                         task={featuredTask}
                         label="Destacada"
@@ -17,14 +18,16 @@ export default function TaskList({ tasks }) {
                 </section>
             )}
 
-            <h2>Lista de tareas</h2>
+            <section className="task-list__items">
+                <h3>Lista de tareas</h3>
 
-            {tasks.map((task) => (
-                <TaskItem
-                    key={task.id}
-                    task={task}
-                />
-            ))}
+                {tasks.map((task) => (
+                    <TaskItem
+                        key={task.id}
+                        task={task}
+                    />
+                ))}
+            </section>
         </div>
     );
 }

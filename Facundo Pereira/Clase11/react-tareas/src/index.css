@@ -1,5 +1,6 @@
 html {
     box-sizing: border-box;
+    min-width: 320px;
 }
 
 *,
@@ -9,20 +10,21 @@ html {
 }
 
 :root {
+    --space-1: 4px;
     --space-2: 8px;
     --space-3: 16px;
     --space-4: 24px;
+    --space-5: 32px;
     --radius: 12px;
-    --color-background: #F5F3EE;
+    --color-background: #F4F6F3;
     --color-surface: #FFFFFF;
     --color-text: #292D2B;
     --color-muted: #747A75;
-    --color-border: #E3E0D8;
+    --color-border: #E3E8E2;
     --color-primary: #244C46;
+    --color-primary-light: #E8F0EC;
     --color-accent: #C47755;
-    --color-title: #244C46;
-    --color-task-title: #292D2B;
-    --color-hover: #F8F6F1;
+    --color-hover: #F8FAF8;
 }
 
 body {
