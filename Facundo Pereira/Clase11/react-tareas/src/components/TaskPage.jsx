@@ -3,12 +3,27 @@ import "./TaskPage.css"
 import Panel from "./Panel"
 import TaskList from "./TaskList";
 import TaskSummary from "./TaskSummary"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function TaskPage({ tasks: initialTasks, titulo, conAyuda }) {
     const [tasks, setTasks] = useState(initialTasks);
-
     const [hidePending, setHidePending] = useState(false);
+    const pending = tasks.filter((task) => !task.completed).length;
+    const [seconds, setSeconds] = useState(0);
+
+    useEffect(() => {
+        document.title = `${pending} pendientes · Tareas`;
+    }, [pending]);
+
+    useEffect(() => {
+        const id = setInterval(() => {
+            setSeconds((s) => s + 1);
+        }, 1000)
+
+
+        return () => clearInterval(id);
+
+    }, []);
 
     //Modifica el estado de una tarea
     const toggleTask = (id) => {
@@ -28,10 +43,9 @@ export default function TaskPage({ tasks: initialTasks, titulo, conAyuda }) {
         ? tasks.filter((task) => !task.completed)
         : tasks;
 
-
     return (
         <main className="task-page">
-            <TaskHeader title={titulo} subtitle="" />
+            <TaskHeader title={titulo} subtitle={`Actualizado hace ${seconds} s`} />
 
             <div className="task-page-layout">
                 <Panel title="Todas las tareas">
