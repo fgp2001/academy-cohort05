@@ -3,7 +3,8 @@ import styles from "./TaskItem.module.css";
 export default function TaskItem({
     task,
     label = "Tarea",
-    variant = "default"
+    variant = "default",
+    onToggleTask
 }) {
     return (
         <div
@@ -20,6 +21,14 @@ export default function TaskItem({
             <span className={styles["task-item__status"]}>
                 {task.completed ? "Hecha" : "Pendiente"}
             </span>
+
+            <button
+                type="button"
+                onClick={() => onToggleTask(task.id)}
+                aria-pressed={task.completed}
+            >
+                {task.completed ? "Marcar como pendiente" : "Completar tarea"}
+            </button>
 
             <details className={styles["task-item__details"]}>
                 <summary>Detalle</summary>
