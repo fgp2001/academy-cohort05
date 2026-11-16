@@ -7,9 +7,15 @@ import TaskSummary from "./TaskSummary";
 import TaskItem from "./TaskItem";
 import "./TaskPage.css";
 
-export default function TaskPage({ tasks, titulo, subtitulo, conAyuda }) {
-  
+export default function TaskPage({ initialTasks, titulo, subtitulo, conAyuda }) {
+  const [tasks, setTasks] = useState(initialTasks);
   const [hideCompleted, setHideCompleted] = useState(false);
+
+  function handleToggle(id) {
+    setTasks(
+      tasks.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t))
+    );
+  }
 
   function handleToggleHide() {
     setHideCompleted(!hideCompleted);
@@ -18,7 +24,7 @@ export default function TaskPage({ tasks, titulo, subtitulo, conAyuda }) {
   const visibleTasks = hideCompleted
     ? tasks.filter((t) => !t.completed)
     : tasks;
-  
+
   // Filtrados
   const pendientes = tasks.filter((t) => !t.completed);
   const hechas = tasks.filter((t) => t.completed);
@@ -28,7 +34,7 @@ export default function TaskPage({ tasks, titulo, subtitulo, conAyuda }) {
   const pendientesPrimero = tasks.toSorted((a, b) => a.completed - b.completed);
 
   const destacada = tasks.find((t) => !t.completed);
-  
+
   return (
     <div className="pagina">
       <TaskHeader title={titulo} subtitle={subtitulo} />
@@ -37,7 +43,7 @@ export default function TaskPage({ tasks, titulo, subtitulo, conAyuda }) {
         <div className="task-page__lists">
           <Panel title="Tarea destacada">
             {destacada ? (
-              <TaskItem task={destacada} variant="compact" />
+              <TaskItem task={destacada} variant="compact" onToggle={handleToggle} />
             ) : (
               <p>No hay tareas pendientes.</p>
             )}
@@ -50,13 +56,11 @@ export default function TaskPage({ tasks, titulo, subtitulo, conAyuda }) {
 
         <div className="task-page__lists">
           <Panel title="Listado de Tareas">
-
             <button type="button" className="task-page__toggle" onClick={handleToggleHide}>
               {hideCompleted ? "Mostrar completadas" : "Ocultar completadas"}
             </button>
 
-            <TaskList tasks={visibleTasks} />
-            
+            <TaskList tasks={visibleTasks} onToggle={handleToggle} />
           </Panel>
           {/* <Panel title="Pendientes">
             <TaskList tasks={pendientes} />

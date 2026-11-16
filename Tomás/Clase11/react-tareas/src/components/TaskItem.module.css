@@ -56,3 +56,13 @@
 .compact .title {
   font-size: 16px;
 }
+
+.button {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
