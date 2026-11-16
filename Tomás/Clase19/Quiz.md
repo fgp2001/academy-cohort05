@@ -36,4 +36,4 @@ Por ultimo, puede ser en :focus el "outline: none", porque no se ve donde está 
 
 Demo: hacer una demo explicando toda la tasktitle, que funcion cumple, para que se usaria, que tecnologías usamos, que decisiones tecnicas tome (por que use css modules por ejemplo), que dificultad tuve.
 
-Link a la demo: https://youtu.be/xalVSJcqelI?si=BoWZE9_vNEH3hDqN
+Link a la demo de la lista de tareas: https://youtu.be/xalVSJcqelI?si=BoWZE9_vNEH3hDqN
