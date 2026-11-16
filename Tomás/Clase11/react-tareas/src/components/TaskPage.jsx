@@ -1,3 +1,4 @@
+import { useState } from "react";
 import TaskHeader from "./TaskHeader";
 import Footer from "./Footer";
 import TaskList from "./TaskList";
@@ -7,6 +8,17 @@ import TaskItem from "./TaskItem";
 import "./TaskPage.css";
 
 export default function TaskPage({ tasks, titulo, subtitulo, conAyuda }) {
+  
+  const [hideCompleted, setHideCompleted] = useState(false);
+
+  function handleToggleHide() {
+    setHideCompleted(!hideCompleted);
+  }
+
+  const visibleTasks = hideCompleted
+    ? tasks.filter((t) => !t.completed)
+    : tasks;
+  
   // Filtrados
   const pendientes = tasks.filter((t) => !t.completed);
   const hechas = tasks.filter((t) => t.completed);
@@ -38,7 +50,13 @@ export default function TaskPage({ tasks, titulo, subtitulo, conAyuda }) {
 
         <div className="task-page__lists">
           <Panel title="Listado de Tareas">
-            <TaskList tasks={tasks} />
+
+            <button type="button" className="task-page__toggle" onClick={handleToggleHide}>
+              {hideCompleted ? "Mostrar completadas" : "Ocultar completadas"}
+            </button>
+
+            <TaskList tasks={visibleTasks} />
+            
           </Panel>
           {/* <Panel title="Pendientes">
             <TaskList tasks={pendientes} />
