@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TaskHeader from "./TaskHeader";
 import Footer from "./Footer";
 import TaskList from "./TaskList";
@@ -10,11 +10,21 @@ import "./TaskPage.css";
 export default function TaskPage({ initialTasks, titulo, subtitulo, conAyuda }) {
   const [tasks, setTasks] = useState(initialTasks);
   const [hideCompleted, setHideCompleted] = useState(false);
+  const [seconds, setSeconds] = useState(0);
 
+  useEffect(() => {
+    const id = setInterval(() => {
+      setSeconds((s) => s + 1);
+    }, 1000);
+
+    return () => clearInterval(id);
+  }, []);
+  
   function handleToggle(id) {
     setTasks(
       tasks.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t))
     );
+    setSeconds(0);
   }
 
   function handleToggleHide() {
@@ -24,6 +34,12 @@ export default function TaskPage({ initialTasks, titulo, subtitulo, conAyuda }) 
   const visibleTasks = hideCompleted
     ? tasks.filter((t) => !t.completed)
     : tasks;
+
+  const pending = tasks.filter((t) => !t.completed).length;
+
+  useEffect(() => {
+    document.title = `${pending} pendientes · Tareas`;
+  }, [pending]);
 
   // Filtrados
   const pendientes = tasks.filter((t) => !t.completed);
@@ -51,6 +67,7 @@ export default function TaskPage({ initialTasks, titulo, subtitulo, conAyuda }) 
 
           <Panel title="Estado actual">
             <TaskSummary tasks={tasks} />
+            <p>Actualizado hace {seconds} s</p>
           </Panel>
         </div>
 
