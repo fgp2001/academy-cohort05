@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TaskHeader from "./TaskHeader";
 import Footer from "./Footer";
 import TaskList from "./TaskList";
@@ -7,14 +7,45 @@ import TaskSummary from "./TaskSummary";
 import TaskItem from "./TaskItem";
 import "./TaskPage.css";
 
-export default function TaskPage({ initialTasks, titulo, subtitulo, conAyuda }) {
-  const [tasks, setTasks] = useState(initialTasks);
+export default function TaskPage({ titulo, subtitulo, conAyuda }) {
+  const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [hideCompleted, setHideCompleted] = useState(false);
+  const [seconds, setSeconds] = useState(0);
 
+  useEffect(() => {
+    const controller = new AbortController();
+
+    async function load() {
+      try {
+        const res = await fetch("/api/tasks.json", { signal: controller.signal });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        setTasks(await res.json());
+      } catch (err) {
+        if (err.name !== "AbortError") setError(err);
+      } finally {
+        if (!controller.signal.aborted) setLoading(false);
+      }
+    }
+
+    load();
+    return () => controller.abort();
+  }, []);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setSeconds((s) => s + 1);
+    }, 1000);
+
+    return () => clearInterval(id);
+  }, []);
+  
   function handleToggle(id) {
     setTasks(
       tasks.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t))
     );
+    setSeconds(0);
   }
 
   function handleToggleHide() {
@@ -24,6 +55,12 @@ export default function TaskPage({ initialTasks, titulo, subtitulo, conAyuda }) 
   const visibleTasks = hideCompleted
     ? tasks.filter((t) => !t.completed)
     : tasks;
+
+  const pending = tasks.filter((t) => !t.completed).length;
+
+  useEffect(() => {
+    document.title = `${pending} pendientes · Tareas`;
+  }, [pending]);
 
   // Filtrados
   const pendientes = tasks.filter((t) => !t.completed);
@@ -35,6 +72,33 @@ export default function TaskPage({ initialTasks, titulo, subtitulo, conAyuda }) 
 
   const destacada = tasks.find((t) => !t.completed);
 
+  if (loading) {
+    return (
+      <div className="pagina">
+        <TaskHeader title={titulo} subtitle={subtitulo} />
+        <p>Cargando tareas…</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="pagina">
+        <TaskHeader title={titulo} subtitle={subtitulo} />
+        <p role="alert">No pudimos cargar las tareas.</p>
+      </div>
+    );
+  }
+
+  if (tasks.length === 0) {
+    return (
+      <div className="pagina">
+        <TaskHeader title={titulo} subtitle={subtitulo} />
+        <p>Todavía no hay tareas.</p>
+      </div>
+    );
+  }
+  
   return (
     <div className="pagina">
       <TaskHeader title={titulo} subtitle={subtitulo} />
@@ -51,6 +115,7 @@ export default function TaskPage({ initialTasks, titulo, subtitulo, conAyuda }) 
 
           <Panel title="Estado actual">
             <TaskSummary tasks={tasks} />
+            <p>Actualizado hace {seconds} s</p>
           </Panel>
         </div>
 
