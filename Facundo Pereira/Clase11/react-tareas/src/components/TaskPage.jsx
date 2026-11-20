@@ -4,14 +4,24 @@ import Panel from "./Panel"
 import TaskList from "./TaskList";
 import TaskSummary from "./TaskSummary"
 import { useState, useEffect } from "react";
+import useTasks from "../hooks/useTask.js";
 
 export default function TaskPage({ titulo, conAyuda }) {
-    const [tasks, setTasks] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [hidePending, setHidePending] = useState(false);
-    const pending = tasks.filter((task) => !task.completed).length;
+
+    const { tasks, loading, error, toggleTask, reload } = useTasks();
+    const [filter, setFilter] = useState("all");
+    const [search, setSearch] = useState("");
     const [seconds, setSeconds] = useState(0);
+
+
+    const pending = tasks.filter((task) => !task.completed).length;
+
+    const filteredTasks = tasks.filter((task) => {
+        const matchesFilter = filter === "all" || (filter === "pending" && !task.completed) || (filter === "done" && task.completed);
+        const matchesSearch = task.title.toLowerCase().includes(search.toLowerCase());
+
+        return matchesFilter && matchesSearch;
+    })
 
     useEffect(() => {
         document.title = `${pending} pendientes · Tareas`;
@@ -26,64 +36,78 @@ export default function TaskPage({ titulo, conAyuda }) {
         return () => clearInterval(id);
 
     }, []);
-
-    useEffect(() => {
-        const controller = new AbortController();
-
-        async function loadTasks() {
-            try {
-                const res = await fetch("/tasks.json", { signal: controller.signal });
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                setTasks(await res.json());
-            } catch (err) {
-                if (err.name !== "AbortError") setError(err);
-            } finally {
-                if (!controller.signal.aborted) setLoading(false);
-            }
-        }
-
-        loadTasks();
-        return () => controller.abort();
-    }, []);
-
-    //Modifica el estado de una tarea
-    const toggleTask = (id) => {
-        setTasks((prevTasks) =>
-            prevTasks.map((task) =>
-                task.id === id
-                    ? { ...task, completed: !task.completed }
-                    : task
-            ))
-    }
-
-    const handleTogglePending = () => {
-        setHidePending((prev) => !prev);
-    }
-
-    const visibleTasks = hidePending
-        ? tasks.filter((task) => !task.completed)
-        : tasks;
-
     let content;
 
     if (loading) {
         content = <p role="status">Cargando tareas…</p>;
     } else if (error) {
-        content = <p role="alert">No pudimos cargar las tareas.</p>;
+        content = (
+            <div>
+                <p role="alert">
+                    No pudimos cargar las tareas.
+                </p>
+                <button type="button" onClick={reload}>
+                    Reintentar
+                </button>
+            </div>
+        );
     } else if (tasks.length === 0) {
         content = <p>Todavía no hay tareas.</p>;
     } else {
         content = (
             <>
-                <button
-                    type="button"
-                    onClick={handleTogglePending}
-                    aria-pressed={hidePending}
-                >
-                    {hidePending ? "Mostrar todas" : "Ocultar completadas"}
-                </button>
+                <div className="task-filters">
+                    <button
+                        type="button"
+                        onClick={() => setFilter("all")}
+                        aria-pressed={filter === "all"}
+                    >
+                        Todas
+                    </button>
 
-                <TaskList tasks={visibleTasks} onToggleTask={toggleTask} />
+                    <button
+                        type="button"
+                        onClick={() => setFilter("pending")}
+                        aria-pressed={filter === "pending"}
+                    >
+                        Pendientes
+                    </button>
+
+                    <button
+                        type="button"
+                        onClick={() => setFilter("done")}
+                        aria-pressed={filter === "done"}
+                    >
+                        Completadas
+                    </button>
+                </div>
+
+                <div className="task-search">
+                    <label htmlFor="task-search">
+                        Buscar tareas
+                    </label>
+
+                    <input
+                        id="task-search"
+                        type="search"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        placeholder="Buscar por título..."
+                    />
+                </div>
+
+                <p aria-live="polite">
+                    Mostrando {filteredTasks.length} de {tasks.length} tareas
+                </p>
+
+                {filteredTasks.length === 0 ? (
+                    <p>No se encontraron tareas con esos filtros.</p>
+                ) : (
+                    <TaskList
+                        tasks={filteredTasks}
+                        onToggleTask={toggleTask}
+                    />
+                )}
             </>
         );
     }
