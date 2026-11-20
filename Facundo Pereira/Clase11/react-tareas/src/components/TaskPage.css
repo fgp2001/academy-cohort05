@@ -91,6 +91,30 @@
     overflow-wrap: anywhere;
 }
 
+.task-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+}
+
+.task-filters button[aria-pressed="true"] {
+    background-color: var(--color-accent);
+    color: white;
+}
+
+.task-search {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+}
+
+.task-search input {
+    width: 100%;
+    padding: var(--space-2);
+}
+
 @media (max-width: 700px) {
     .task-page {
         padding: 24px 16px;
