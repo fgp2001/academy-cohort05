@@ -6,32 +6,20 @@ import Panel from "./Panel";
 import TaskSummary from "./TaskSummary";
 import TaskItem from "./TaskItem";
 import "./TaskPage.css";
+import { useTasks } from "../hooks/useTasks";
+
+const FILTERS = [
+  { value: "all", label: "Todas" },
+  { value: "pending", label: "Pendientes" },
+  { value: "done", label: "Completadas" },
+];
 
 export default function TaskPage({ titulo, subtitulo, conAyuda }) {
-  const [tasks, setTasks] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { tasks, loading, error, reload, toggleTask } = useTasks();
   const [hideCompleted, setHideCompleted] = useState(false);
   const [seconds, setSeconds] = useState(0);
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    async function load() {
-      try {
-        const res = await fetch("/api/tasks.json", { signal: controller.signal });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        setTasks(await res.json());
-      } catch (err) {
-        if (err.name !== "AbortError") setError(err);
-      } finally {
-        if (!controller.signal.aborted) setLoading(false);
-      }
-    }
-
-    load();
-    return () => controller.abort();
-  }, []);
+  const [filter, setFilter] = useState("all"); // "all" | "pending" | "done"
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -40,21 +28,21 @@ export default function TaskPage({ titulo, subtitulo, conAyuda }) {
 
     return () => clearInterval(id);
   }, []);
-  
+
   function handleToggle(id) {
-    setTasks(
-      tasks.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t))
-    );
+    toggleTask(id);
     setSeconds(0);
   }
 
-  function handleToggleHide() {
-    setHideCompleted(!hideCompleted);
+  function clearFilters() {
+    setFilter("all");
+    setQuery("");
   }
 
-  const visibleTasks = hideCompleted
-    ? tasks.filter((t) => !t.completed)
-    : tasks;
+  const q = query.trim().toLowerCase();
+  const visibleTasks = tasks
+    .filter((t) => filter === "all" || t.completed === (filter === "done"))
+    .filter((t) => t.title.toLowerCase().includes(q));
 
   const pending = tasks.filter((t) => !t.completed).length;
 
@@ -86,6 +74,9 @@ export default function TaskPage({ titulo, subtitulo, conAyuda }) {
       <div className="pagina">
         <TaskHeader title={titulo} subtitle={subtitulo} />
         <p role="alert">No pudimos cargar las tareas.</p>
+        <button type="button" onClick={reload}>
+          Reintentar
+        </button>
       </div>
     );
   }
@@ -121,11 +112,39 @@ export default function TaskPage({ titulo, subtitulo, conAyuda }) {
 
         <div className="task-page__lists">
           <Panel title="Listado de Tareas">
-            <button type="button" className="task-page__toggle" onClick={handleToggleHide}>
-              {hideCompleted ? "Mostrar completadas" : "Ocultar completadas"}
-            </button>
+            <p id="filter-label" className="task-page__label">Mostrar</p>
+            <div className="task-page__filters" role="group" aria-labelledby="filter-label">
+              {FILTERS.map((f) => (
+                <button
+                  key={f.value}
+                  type="button"
+                  className="task-page__filter"
+                  aria-pressed={filter === f.value}
+                  onClick={() => setFilter(f.value)}
+                >
+                  {f.label}
+                </button>
+              ))}
+              <p>Mostrando {visibleTasks.length} de {tasks.length}</p>
+            </div>
+            
+            <label htmlFor="q" className="task-page__label">Buscar</label>
+            <input
+              id="q"
+              type="search"
+              className="task-page__search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
 
-            <TaskList tasks={visibleTasks} onToggle={handleToggle} />
+            {visibleTasks.length === 0 ? (
+              <div className="task-page__no-results">
+                <p>{query ? `Ninguna tarea coincide con «${query}».` : "No hay tareas con ese filtro."}</p>
+                <button type="button" onClick={clearFilters}>Limpiar filtros</button>
+              </div>
+            ) : (
+              <TaskList tasks={visibleTasks} onToggle={handleToggle} />
+            )}
           </Panel>
           {/* <Panel title="Pendientes">
             <TaskList tasks={pendientes} />
