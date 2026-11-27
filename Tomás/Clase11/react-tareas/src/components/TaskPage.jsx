@@ -7,6 +7,7 @@ import TaskSummary from "./TaskSummary";
 import TaskItem from "./TaskItem";
 import "./TaskPage.css";
 import { useTasks } from "../hooks/useTasks";
+import NewTaskForm from "./NewTaskForm";
 
 const FILTERS = [
   { value: "all", label: "Todas" },
@@ -15,10 +16,11 @@ const FILTERS = [
 ];
 
 export default function TaskPage({ titulo, subtitulo, conAyuda }) {
-  const { tasks, loading, error, reload, toggleTask } = useTasks();
+  const { tasks, loading, error, reload, toggleTask, addTask, editTask } = useTasks();
   const [seconds, setSeconds] = useState(0);
   const [filter, setFilter] = useState("all"); // "all" | "pending" | "done"
   const [query, setQuery] = useState("");
+  const [editingTask, setEditingTask] = useState(null); // null = creando, una tarea = editando
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -31,6 +33,15 @@ export default function TaskPage({ titulo, subtitulo, conAyuda }) {
   function handleToggle(id) {
     toggleTask(id);
     setSeconds(0);
+  }
+
+  function handleSave(data) {
+    if (editingTask) {
+      editTask(editingTask.id, data);
+      setEditingTask(null);
+    } else {
+      addTask(data);
+    }
   }
 
   function clearFilters() {
@@ -85,10 +96,11 @@ export default function TaskPage({ titulo, subtitulo, conAyuda }) {
       <div className="pagina">
         <TaskHeader title={titulo} subtitle={subtitulo} />
         <p>Todavía no hay tareas.</p>
+        <NewTaskForm onSave={addTask} />
       </div>
     );
   }
-  
+
   return (
     <div className="pagina">
       <TaskHeader title={titulo} subtitle={subtitulo} />
@@ -97,7 +109,7 @@ export default function TaskPage({ titulo, subtitulo, conAyuda }) {
         <div className="task-page__lists">
           <Panel title="Tarea destacada">
             {destacada ? (
-              <TaskItem task={destacada} variant="compact" onToggle={handleToggle} />
+              <TaskItem task={destacada} variant="compact" onToggle={handleToggle} onEdit={setEditingTask} />
             ) : (
               <p>No hay tareas pendientes.</p>
             )}
@@ -110,6 +122,16 @@ export default function TaskPage({ titulo, subtitulo, conAyuda }) {
         </div>
 
         <div className="task-page__lists">
+          <Panel title={editingTask ? "Editar tarea" : "Nueva tarea"}>
+            <NewTaskForm
+              key={editingTask ? editingTask.id : "new"}
+              initialTitle={editingTask?.title}
+              initialDescription={editingTask?.description}
+              onSave={handleSave}
+              onCancel={editingTask ? () => setEditingTask(null) : undefined}
+            />
+          </Panel>
+
           <Panel title="Listado de Tareas">
             <p id="filter-label" className="task-page__label">Mostrar</p>
             <div className="task-page__filters" role="group" aria-labelledby="filter-label">
@@ -124,9 +146,9 @@ export default function TaskPage({ titulo, subtitulo, conAyuda }) {
                   {f.label}
                 </button>
               ))}
-              <p>Mostrando {visibleTasks.length} de {tasks.length}</p>
             </div>
-            
+            <p>Mostrando {visibleTasks.length} de {tasks.length}</p>
+
             <label htmlFor="q" className="task-page__label">Buscar</label>
             <input
               id="q"
@@ -142,7 +164,7 @@ export default function TaskPage({ titulo, subtitulo, conAyuda }) {
                 <button type="button" onClick={clearFilters}>Limpiar filtros</button>
               </div>
             ) : (
-              <TaskList tasks={visibleTasks} onToggle={handleToggle} />
+              <TaskList tasks={visibleTasks} onToggle={handleToggle} onEdit={setEditingTask} />
             )}
           </Panel>
           {/* <Panel title="Pendientes">

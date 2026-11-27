@@ -11,9 +11,9 @@ export default function TaskHeader({ title, subtitle }) {
         <h1 className="task-header__title">{title} (#{renders})</h1>
         <h2 className="task-header__subtitle">{subtitle} (#{renders + 1})</h2>
       </div>
-      <button type="button" className="task-header__button">
+      {/*<button type="button" className="task-header__button">
         Nueva tarea
-      </button>
+      </button> */}
     </header>
   );
 }
