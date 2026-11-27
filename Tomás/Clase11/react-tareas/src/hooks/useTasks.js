@@ -34,5 +34,25 @@ export function useTasks() {
     );
   }
 
-  return { tasks, loading, error, reload, toggleTask };
+  function addTask({ title, description }) {
+    setTasks((prev) => [
+      ...prev,
+      {
+        id: Date.now(), // temporal
+        title,
+        completed: false,
+        ...(description && { description }),
+      },
+    ]);
+  }
+
+  function editTask(id, { title, description }) {
+  setTasks((prev) =>
+    prev.map((t) =>
+      t.id === id ? { ...t, title, description: description || undefined } : t
+    )
+  );
+}
+
+  return { tasks, loading, error, reload, toggleTask, addTask, editTask };
 }

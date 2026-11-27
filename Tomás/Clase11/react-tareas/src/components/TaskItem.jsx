@@ -1,6 +1,6 @@
 import styles from "./TaskItem.module.css";
 
-export default function TaskItem({ task, onToggle, variant = "default" }) {
+export default function TaskItem({ task, onToggle, onEdit, variant = "default" }) {
   const className = [
     styles.item,
     task.completed && styles.completed,
@@ -16,6 +16,9 @@ export default function TaskItem({ task, onToggle, variant = "default" }) {
         <span className={styles.status}>{task.completed ? "Completada" : "Pendiente"}</span>
         <button type="button" className={styles.button} onClick={() => onToggle(task.id)}>
           {task.completed ? "Marcar pendiente" : "Completar"}
+        </button>
+        <button type="button" className={styles.button} onClick={() => onEdit(task)}>
+          Editar
         </button>
       </div>
 
