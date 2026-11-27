@@ -16,7 +16,6 @@ const FILTERS = [
 
 export default function TaskPage({ titulo, subtitulo, conAyuda }) {
   const { tasks, loading, error, reload, toggleTask } = useTasks();
-  const [hideCompleted, setHideCompleted] = useState(false);
   const [seconds, setSeconds] = useState(0);
   const [filter, setFilter] = useState("all"); // "all" | "pending" | "done"
   const [query, setQuery] = useState("");
